@@ -28,8 +28,6 @@ export const Register = () =>{
         case 'auth/weak-password':
           setFeedback('The password must be at least 6 characters.');
           break;
-        default:
-          setFeedback('An unknown error occurred.');
       }
     };
 
