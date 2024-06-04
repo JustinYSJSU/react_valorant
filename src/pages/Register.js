@@ -4,6 +4,8 @@ import { createUserWithEmailAndPassword } from "firebase/auth"
 import {ref, uploadBytes, getDownloadURL} from "firebase/storage"
 import { addDoc, collection } from "firebase/firestore"
 import { updateProfile } from "firebase/auth"
+import RegisterCSS from "../css/register.module.css"
+import { useNavigate } from "react-router-dom"
 
 export const Register = () =>{
     
@@ -12,6 +14,8 @@ export const Register = () =>{
     const [username, setUsername] = useState()
     const [profilePicture, setProfilePicture] = useState()
     const [feedback, setFeedback] = useState()
+
+    const navigate = useNavigate()
 
     const handleAuthError = (error) => {
       switch (error.code) {
@@ -29,7 +33,8 @@ export const Register = () =>{
       }
     };
 
-    const handleRegister = async () =>{
+    const handleRegister = async (e) =>{
+        e.preventDefault()
         try{
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
@@ -47,6 +52,7 @@ export const Register = () =>{
                       username: username
                     })
                     await updateProfile(user, {displayName: username, photoURL: url})
+                    setFeedback("Account created successfully")
                 })
                 
               })
@@ -58,6 +64,7 @@ export const Register = () =>{
                     username: username
                   })
                   await updateProfile(user, {displayName: username, photoURL: ''})
+                  setFeedback("Account created successfully")
             }
         }
         catch (error){
@@ -68,14 +75,35 @@ export const Register = () =>{
 
     
     
-    return(<div>
-        <h1> VALORANT VOD REVIEW APP REGISTER </h1>
+    return(
+    <div className={RegisterCSS['register-container']}>
+      <div className={RegisterCSS['image-container']}>
+          <img src="https://firebasestorage.googleapis.com/v0/b/react-valorant.appspot.com/o/application%2Fvalorant-jett-player-card.jpg?alt=media&token=1d116126-3476-43a6-9f51-a5881e7bebdf" alt="Description of image" className={RegisterCSS['register-image']} />
+      </div>
 
-        {feedback && <div> {feedback} </div>}
-        <input onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email" />
-        <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" />
-        <input onChange={(e) => setUsername(e.target.value)} type="text" placeholder="Username" />
-        <input onChange={(e) => setProfilePicture(e.target.files[0])} type="file" accept="image/png, image/jpg"/>
-        <button onClick={handleRegister}> REGISTER </button>
+      <div className={RegisterCSS['register-form-container']}>
+        <h1> REGISTER HERE </h1>
+
+        <form className={RegisterCSS['register-form']}onSubmit={handleRegister}>
+          
+          <input className={RegisterCSS['register-form-username']} onChange={(e) => setUsername(e.target.value)} type="text" placeholder="Username" />
+          <input className={RegisterCSS['register-form-email']} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email" />
+          <input className={RegisterCSS['register-form-password']} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" />
+          
+          <label className={RegisterCSS['register-form-username']}> Profile Picture <input placeholder="Profile Picture" onChange={(e) => setProfilePicture(e.target.files[0])} type="file" accept="image/png, image/jpg"/> </label>
+          <button className={RegisterCSS['register-form-button']} type="submit"> REGISTER </button>
+
+          {feedback && <p className={RegisterCSS['feedback']}> {feedback} </p> }
+        </form>
+
+        <div className={RegisterCSS['link-container']}>
+            <a style={{textDecoration: 'underline', cursor: 'pointer'}}
+            onClick={() => navigate('/')}
+            >
+              Already have an account? Click here to login.
+            </a>
+         </div>
+        
+      </div>
     </div>)
 }
