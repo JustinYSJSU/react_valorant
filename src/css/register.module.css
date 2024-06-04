@@ -1,3 +1,11 @@
+.register-page {
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    height: 100vh;
+}
+
 .register-container {
     background-color: #222222;
     display: flex;

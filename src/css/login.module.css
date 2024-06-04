@@ -1,13 +1,11 @@
-body {
-    background-color: #1A1A1A;
-    margin: 0;
-    font-family: Arial, sans-serif;
-    color: #FFFFFF;
-    display: flex;
-    justify-content: center;
+.login-page {
+    display: flex; 
     align-items: center;
+    justify-content: center;
+    margin: auto;
     height: 100vh;
 }
+
 
 .login-container {
     background-color: #222222;

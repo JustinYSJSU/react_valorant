@@ -25,7 +25,8 @@ export const Login = () =>{
     }
 
     return(
-      <div className={LoginCSS['login-container']}>
+      <div className={LoginCSS['login-page']}>
+        <div className={LoginCSS['login-container']}>
         <div className={LoginCSS['image-container']}>
           <img src="https://firebasestorage.googleapis.com/v0/b/react-valorant.appspot.com/o/application%2Fezgif-3-4dfcd255d0.jpg?alt=media&token=991440b2-af5e-4a08-862d-c85ebf28fd2b" alt="Description of image" className={LoginCSS['login-image']} />
         </div>
@@ -48,6 +49,8 @@ export const Login = () =>{
          </div>
           </div>
       </div>
+      </div>
+      
     
     )
 }

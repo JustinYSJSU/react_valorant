@@ -3,6 +3,12 @@
   text-align: center;
 }
 
+body{
+  background-color: #1A1A1A;
+  font-family: Arial, sans-serif;
+  color: #FFFFFF;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
