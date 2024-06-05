@@ -73,5 +73,9 @@
 .vod-display{
     display: flex;
     background-color: #222222;
+    flex-direction: column;
+    border-radius: 20px;
+    width: 40%;
+    overflow-x: auto;
 }
 

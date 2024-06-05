@@ -56,8 +56,9 @@ export const Home = () =>{
               agent: doc.data().agent, 
               map: doc.data().map, 
               timestamp: doc.data().timestamp, 
-              vod_url: doc.data().vod_url, 
-              vod_title: doc.data().title
+              vod_url: doc.data().video_url, 
+              vod_title: doc.data().title, 
+              result: doc.data().result
              }
             setUserVods([...userVods, vod_info])
            })
@@ -149,7 +150,13 @@ export const Home = () =>{
                {!loading && userVods.length === 0 && <h2> No VODS to review. Upload one! </h2>}
                {!loading && userVods.length !== 0 && userVods.map(vod => (
                   <div className={HomeCSS['vod-display']}>
-                    <p> {vod.title} </p>
+                    <video width="400px" height="400px" controls> 
+                      <source src={vod.vod_url} type="video/mp4" />
+                    </video>
+                    <p> {vod.vod_title} </p>
+                    <p> {vod.agent} </p>
+                    <p> {vod.map} </p>
+                    <p> {vod.result} </p>
                   </div>
                ))}
             </div>
