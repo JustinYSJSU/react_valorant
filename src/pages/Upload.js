@@ -1,8 +1,53 @@
+import { auth, storage, db  } from "../config/firebase"
 import UploadCSS from "../css/upload.module.css"
+import { useState } from "react"
+import {ref, uploadBytes, getDownloadURL} from "firebase/storage"
+import {Timestamp, addDoc} from "firebase/firestore"
+import { collection } from "firebase/firestore"
+import { useNavigate } from "react-router-dom"
 
 export const Upload = () =>{
-    return(
 
+    const [uploading, setUploading] = useState(false)
+    const [uploadComplete, setUploadComplete] = useState(false)
+
+    const [vodFile, setVodFile] = useState()
+
+    const [agent, setAgent] = useState()
+    const [map, setMap] = useState()
+    const [result, setResult] = useState()
+
+    const navigate = useNavigate()
+
+    const handleUpload = async(e) =>{
+        setUploading(true)
+        e.preventDefault()
+        const vodsRef = collection(db, "videos")
+        try{
+            const currentUser = auth.currentUser
+            const vodRef = ref(storage, `vods/${currentUser.uid}/${Timestamp.fromDate(new Date())}`)
+            uploadBytes(vodRef, vodFile).then( async () =>{
+                await getDownloadURL(vodRef).then(async (url) =>{
+                    await addDoc(vodsRef, {
+                        agent: agent,
+                        map: map,
+                        result: result,
+                        timestamp: Timestamp.fromDate(new Date()), 
+                        user_id: currentUser.uid,
+                        video_url: url
+                    })
+                    setUploadComplete(true)
+                    setUploading(false)
+                    navigate("/home")
+                })
+            })
+        }
+        catch(error){
+            console.log(error.code)
+        }
+    }
+
+    return(
         <div className={UploadCSS['upload-container']}>
             <div className={UploadCSS['upload-top']}> 
               <h1> Upload VOD </h1>
@@ -18,17 +63,73 @@ export const Upload = () =>{
                       </svg>
                     </button>
 
-                    <input type="file" id="file-input" style={{ display: 'none' }} />
+                    <p style={{fontWeight: "bold"}}> Provide the following VOD information, then upload.</p>
+                    <div className={UploadCSS['post-upload-info']}> 
 
-                    <p style={{fontWeight: "bold"}}> Click the icon above or button below to upload</p>
-                   
-                    <label htmlFor="file-input">
-                      <button>
-                        SELECT FILES
-                      </button>
-                    </label>
+                        <input type="text" className={UploadCSS['vod-name']} placeholder="VOD title (20 characters max)."/>
+
+                        <select onChange={ (e) => {setAgent(e.target.value)}} className={UploadCSS['select-option']} required="true">
+                          <option value="non"> Agent </option>
+                          <option value="Astra"> Astra </option>
+                          <option value="Breach"> Breach </option>
+                          <option value="Brimstone"> Brimstone </option>
+                          <option value="Chamber"> Chamber </option>
+                          <option value="Clove"> Clove </option>
+                          <option value="Cypher"> Cypher </option>
+                          <option value="Deadlock"> Deadlock</option>
+                          <option value="Fade"> Fade </option>
+                          <option value="Gekko"> Gekko </option>
+                          <option value="Harbor"> Harbor </option>
+                          <option value="Iso"> Iso </option>
+                          <option value="Jett"> Jett </option>
+                          <option value="KAY/O"> KAY/O </option>
+                          <option value="Killjoy"> Killjoy </option>
+                          <option value="Neon"> Neon </option>
+                          <option value="Omen"> Omen </option>
+                          <option value="Phoenix"> Phoenix </option>
+                          <option value="Raze"> Raze </option>
+                          <option value="Reyna"> Reyna</option>
+                          <option value="Sage"> Sage </option>
+                          <option value="Skye"> Skye </option>
+                          <option value="Sova"> Sova </option>
+                          <option value="Viper"> Viper </option>
+                          <option value="Yoru"> Yoru </option>
+                        </select>
+
+                        <select onChange={ (e) => {setMap(e.target.value)}}className={UploadCSS['select-option']} required="true">
+                          <option value="non"> Map </option>
+                          <option value="Ascent"> Ascent </option>
+                          <option value="Bind"> Bind </option>
+                          <option value="Breeze"> Breeze </option>
+                          <option value="Fracture"> Fracture </option>
+                          <option value="Haven"> Haven </option>
+                          <option value="Icebox"> Icebox </option>
+                          <option value="Lotus"> Lotus </option>
+                          <option value="Pearl"> Pearl </option>
+                          <option value="Split"> Split </option>
+                          <option value="Sunset"> Sunset </option>
+                        </select>
+                        
+                        <select onChange={ (e) => {setResult(e.target.value)}} className={UploadCSS['select-option']} required="true">
+                          <option value="non"> Result </option>
+                          <option value="Win"> Win </option>
+                          <option value="Loss"> Loss </option>
+                          <option value="Draw"> Draw </option>
+                        </select>
+ 
+                        <input onChange={ (e) => {setVodFile(e.target.files[0])}} type="file" accept="video/mp4" required="true"/>
+
+                        {uploading && <div> Uploading... </div>}
+                        {(<button onClick={handleUpload} className={UploadCSS['publish-button']}>
+                            PUBLISH 
+                        </button>)}
+                        
+
+                      </div> 
                     
-                   
+                    
+                      
+                    
                 </div>
             </div>
         </div>

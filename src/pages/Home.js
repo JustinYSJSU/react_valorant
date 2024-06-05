@@ -91,6 +91,7 @@ export const Home = () =>{
                   <option className={HomeCSS['select-value']} value="non"> Result </option>
                   <option className={HomeCSS['select-value']} value="non"> Win </option>
                   <option className={HomeCSS['select-value']} value="non"> Loss </option>
+                  <option className={HomeCSS['select-value']} value="non"> Draw </option>
                 </select>
 
                 <select className={HomeCSS['select-option']}>
@@ -98,7 +99,6 @@ export const Home = () =>{
                   <option className={HomeCSS['select-value']} value="non"> Newest </option>
                   <option className={HomeCSS['select-value']} value="non"> Oldest </option>
                 </select>
-
                </form>
                <button className={HomeCSS['upload-button']} onClick={() => navigate("/upload")}> UPLOAD </button>
             </div>

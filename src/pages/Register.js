@@ -15,6 +15,8 @@ export const Register = () =>{
     const [profilePicture, setProfilePicture] = useState()
     const [feedback, setFeedback] = useState()
 
+    const [uploading, setUploading] = useState(false)
+
     const navigate = useNavigate()
 
     const handleAuthError = (error) => {
