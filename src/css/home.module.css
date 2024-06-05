@@ -58,6 +58,7 @@
     margin-top: 20px;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .upload-button{
@@ -80,6 +81,7 @@
     height: 259px;
     align-items: center;
     margin-left: 20px;
+    margin-top: 20px;
     border: 1px solid #222222;
 }
 
