@@ -42,11 +42,13 @@ export const Home = () =>{
     
     useEffect( () => {
       const getUserVods = async () =>{
+        const copyOfVods = []
          if(!userID){
           return;
          }
          
          try{
+           
            setLoading(true)
            const q = query(collection(db, "videos"), where ("user_id", "==", userID))
            const querySnapshot = await getDocs(q)
@@ -61,13 +63,14 @@ export const Home = () =>{
               result: doc.data().result, 
               vod_id: doc.id
              }
-            setUserVods([...userVods, vod_info])
+            copyOfVods.push(vod_info)
            })
         }
         catch(error){
           console.log(error)
         }
         finally{
+          setUserVods(copyOfVods)
           setLoading(false)
         }
          
@@ -82,9 +85,7 @@ export const Home = () =>{
               <h1> Library </h1>
               <button onClick={handleSignOut}> Logout </button>
 
-              {username && <div> {username} </div>}
-
-              {userID && <div> {userID} </div>}
+              {username && <div> Hi, {username} </div>}
             </div>
             
             <div className={HomeCSS['vod-options']}>
@@ -150,14 +151,21 @@ export const Home = () =>{
             <div className={HomeCSS['vod-feed']}>
                {!loading && userVods.length === 0 && <h2> No VODS to review. Upload one! </h2>}
                {!loading && userVods.length !== 0 && userVods.map(vod => (
-                  <div className={HomeCSS['vod-display']} onClick={() => navigate(`/vod/${vod.vod_id}`)}>
-                    <video width="400px" height="400px" controls> 
-                      <source src={vod.vod_url} type="video/mp4" />
+                  <div className={HomeCSS['vod-display']}>
+                    <video  onClick={() => navigate(`/vod/${vod.vod_id}`)} className={HomeCSS['vod']} width="60%" height="60%" controls preload="metadata"> 
+                      <source src={vod.vod_url + "#t=0.1"}  type="video/mp4" />
                     </video>
-                    <p> {vod.vod_title} </p>
-                    <p> {vod.agent} </p>
-                    <p> {vod.map} </p>
-                    <p> {vod.result} </p>
+                    <div className={HomeCSS['vod-title-time']}>
+                      <p style={{marginLeft: "15px"}}>
+                        {vod.vod_title} ◦ {new Date(vod.timestamp).toLocaleString()}
+                      </p>
+                    </div>
+
+                    <div className={HomeCSS['vod-desc']}>
+                      <p style={{marginLeft: "15px"}}> Agent: {vod.agent} </p>
+                      <p style={{marginLeft: "10px"}}> Map: {vod.map} </p>
+                      <p style={{marginLeft: "10px"}}> Result: {vod.result} </p>
+                    </div>
                   </div>
                ))}
             </div>
