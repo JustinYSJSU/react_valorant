@@ -5,7 +5,7 @@ import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Home } from './pages/Home';
 import { Upload } from './pages/Upload';
-
+import {Vod} from './pages/Vod';
 function App() {
   return (
     <div className="App">
@@ -15,6 +15,7 @@ function App() {
           <Route path = "/register" element={<Register />} />
           <Route path = "/home" element={<Home />} />
           <Route path = "/upload" element={<Upload />} />
+          <Route path = "/vod/:vodID" element={<Vod />} />
         </Routes>
         
       </Router>

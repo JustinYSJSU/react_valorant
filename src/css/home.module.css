@@ -77,5 +77,6 @@
     border-radius: 20px;
     width: 40%;
     overflow-x: auto;
+    cursor: pointer;
 }
 

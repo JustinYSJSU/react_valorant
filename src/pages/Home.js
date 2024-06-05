@@ -58,7 +58,8 @@ export const Home = () =>{
               timestamp: doc.data().timestamp, 
               vod_url: doc.data().video_url, 
               vod_title: doc.data().title, 
-              result: doc.data().result
+              result: doc.data().result, 
+              vod_id: doc.id
              }
             setUserVods([...userVods, vod_info])
            })
@@ -149,7 +150,7 @@ export const Home = () =>{
             <div className={HomeCSS['vod-feed']}>
                {!loading && userVods.length === 0 && <h2> No VODS to review. Upload one! </h2>}
                {!loading && userVods.length !== 0 && userVods.map(vod => (
-                  <div className={HomeCSS['vod-display']}>
+                  <div className={HomeCSS['vod-display']} onClick={() => navigate(`/vod/${vod.vod_id}`)}>
                     <video width="400px" height="400px" controls> 
                       <source src={vod.vod_url} type="video/mp4" />
                     </video>
