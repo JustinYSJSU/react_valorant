@@ -7,7 +7,6 @@ import { collection, getDocs, query, where, orderBy } from "firebase/firestore"
 import { db } from "../config/firebase"
 
 export const Home = () =>{
-    const currentUser = auth.currentUser
     const navigate = useNavigate()
 
     const [agent, setAgent] = useState()
@@ -15,7 +14,10 @@ export const Home = () =>{
     const [result, setResult] = useState()
     const [time, setTime] = useState()
 
+    const [username, setUsername] = useState()
+    const [userID, setUserID] = useState()
     const [userVods, setUserVods] = useState([])
+    const [loading, setLoading] = useState(true)
 
     const handleSignOut = () =>{
       signOut(auth).then( () =>{
@@ -25,22 +27,62 @@ export const Home = () =>{
       })
     }
 
+    useEffect( () =>{
+      const getUserInfo = async () =>{
+        auth.onAuthStateChanged( (user) =>{
+          if(user){
+            setUsername(user.displayName)
+            setUserID(user.uid)
+          }
+        })
+      }
+      getUserInfo()
+    }, [])
+
+    
     useEffect( () => {
       const getUserVods = async () =>{
-         const q = query(collection(db, "videos"), where ("user_id", "==", currentUser.uid))
-         const querySnapshot = await getDocs(q)
-         querySnapshot.forEach( (doc) => {
-          userVods.push(doc)
-         })
+         if(!userID){
+          return;
+         }
+         
+         try{
+           setLoading(true)
+           const q = query(collection(db, "videos"), where ("user_id", "==", userID))
+           const querySnapshot = await getDocs(q)
+           querySnapshot.forEach((doc) =>{
+             console.log(doc.data())
+             const vod_info = {
+              agent: doc.data().agent, 
+              map: doc.data().map, 
+              timestamp: doc.data().timestamp, 
+              vod_url: doc.data().vod_url, 
+              vod_title: doc.data().title
+             }
+            setUserVods([...userVods, vod_info])
+           })
+        }
+        catch(error){
+          console.log(error)
+        }
+        finally{
+          setLoading(false)
+        }
+         
       }
       getUserVods()
-    }, [])
+    }, [userID])
+    
 
     return(
         <div className={HomeCSS['home-container']}>
             <div className={HomeCSS['home-top']}> 
               <h1> Library </h1>
               <button onClick={handleSignOut}> Logout </button>
+
+              {username && <div> {username} </div>}
+
+              {userID && <div> {userID} </div>}
             </div>
             
             <div className={HomeCSS['vod-options']}>
@@ -104,7 +146,12 @@ export const Home = () =>{
             </div>
             
             <div className={HomeCSS['vod-feed']}>
-               {userVods.length === 0 ? <h2> You have no VODS to review. Upload some! </h2> : <div> </div>}
+               {!loading && userVods.length === 0 && <h2> No VODS to review. Upload one! </h2>}
+               {!loading && userVods.length !== 0 && userVods.map(vod => (
+                  <div className={HomeCSS['vod-display']}>
+                    <p> {vod.title} </p>
+                  </div>
+               ))}
             </div>
         </div>
 

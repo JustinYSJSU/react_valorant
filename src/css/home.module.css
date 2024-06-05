@@ -70,4 +70,8 @@
     cursor: pointer;
 }
 
+.vod-display{
+    display: flex;
+    background-color: #222222;
+}
 
