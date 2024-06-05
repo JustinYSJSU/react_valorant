@@ -74,11 +74,6 @@
     margin: auto;
 }
 
-button:hover {
-    background-color: #FFFFFF;
-    color: #000000;
-}
-
 .feedback {
     margin-top: 10px;
     color: #FFA500;

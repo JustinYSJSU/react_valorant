@@ -46,6 +46,18 @@
     margin-left: 20px;
 }
 
+.select-value{
+    border-radius: 10px;
+    border-color: #FFC107;
+    margin-top: 10px;
+}
+
+.vod-feed{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
 .upload-button{
     background-color: #FF4645;
     border-radius: 5px;
