@@ -2,7 +2,7 @@ import { auth, storage, db  } from "../config/firebase"
 import UploadCSS from "../css/upload.module.css"
 import { useState } from "react"
 import {ref, uploadBytes, getDownloadURL, uploadBytesResumable} from "firebase/storage"
-import {Timestamp, addDoc} from "firebase/firestore"
+import {Timestamp, addDoc, setDoc} from "firebase/firestore"
 import { collection } from "firebase/firestore"
 import { useNavigate } from "react-router-dom"
 
@@ -46,15 +46,16 @@ export const Upload = () =>{
             }, 
             () => {
                 getDownloadURL(vodRef).then(async (url) =>{
-                    await addDoc(vodsRef, {
-                        agent: agent,
+                    await addDoc(vodsRef, {}).then( docRef => {
+                    setDoc(docRef, {vod_id: docRef.id,  agent: agent,
                         map: map,
                         result: result,
                         timestamp: Timestamp.fromDate(new Date()), 
                         user_id: currentUser.uid,
                         video_url: url,
-                        title: title
+                        title: title})
                     })
+                    
                     setUploadComplete(true)
                     setUploading(false)
                     navigate("/home")
