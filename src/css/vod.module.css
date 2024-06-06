@@ -38,3 +38,27 @@
     overflow-y: auto;
     color: white;
 }
+
+.vod{
+    border-radius: 20px;
+    width: 100%;
+    object-fit: cover;
+    cursor: pointer;
+    flex-grow: 1; 
+    
+}
+
+.vod-title-time{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    font-weight: bold;
+    border-top: 1px solid #B0B0B0;
+}
+
+.vod-desc{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0%;
+}

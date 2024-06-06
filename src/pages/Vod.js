@@ -3,36 +3,26 @@ import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { collection, getDocs, query, where, doc } from "firebase/firestore"
 import { db } from "../config/firebase"
-
+import { format } from "date-fns"
 export const Vod = () =>{
     const {vodID} = useParams()
     const [vod, setVod] = useState()
+    const[notes, setNotes] = useState("notes here")
 
     const convertTimestamp = (timestamp) =>{
         const ms = (timestamp.seconds) * 1000 + (timestamp.nanoseconds / 1000000)
-        return new Date(ms)
+        return format(new Date(ms), "MMMM dd, yyyy hh:mm a")
     }
 
     useEffect( () =>{
         const getVod = async () =>{
-           const q = query(collection(db, "videos"), where ("", "==", vodID))
+           const q = query(collection(db, "videos"), where ("vod_id", "==", vodID))
            
            const querySnapshot = await getDocs(q)
            querySnapshot.forEach( (doc) =>{
-            console.log(doc)
+            setVod(doc.data())
+            console.log(doc.data().timestamp)
            })
-           /*
-           const vod_info = {
-            agent: doc.data().agent, 
-            map: doc.data().map, 
-            timestamp: readableTimestamp, 
-            vod_url: doc.data().video_url, 
-            vod_title: doc.data().title, 
-            result: doc.data().result, 
-            vod_id: doc.id
-           }
-           setVod(vod_info)
-           */
         }
         getVod()
     },[])
@@ -44,11 +34,30 @@ export const Vod = () =>{
             </div>
 
             <div className={VodCSS['vod-and-notes']}>
+              {!vod && <div> Loading VOD... </div>}
+              {vod && 
               <div className={VodCSS['vod-display']}>
-                PUT THE VOD HERE
-              </div>
+                <video className={VodCSS['vod']} width="60%" height="60%" controls preload="metadata"> 
+                      <source src={vod.video_url + "#t=0.1"}  type="video/mp4"/>
+                </video>
 
-              <textarea placeholder="PUT THE NOTES HERE" className={VodCSS['notes-display']}>
+                <div className={VodCSS['vod-title-time']}>
+                      <p style={{marginLeft: "15px"}}>
+                    
+                      {vod.title} ◦ {convertTimestamp(vod.timestamp)}
+                      </p>
+                </div>
+
+                <div className={VodCSS['vod-desc']}>
+                      <p style={{marginLeft: "15px"}}> Agent: {vod.agent} </p>
+                      <p style={{marginLeft: "10px"}}> Map: {vod.map} </p>
+                      <p style={{marginLeft: "10px"}}> Result: {vod.result} </p>
+                </div>
+              </div>}
+              
+
+              {!notes && <div> Loading notes... </div>}
+              <textarea placeholder="NOTES ARE IN PROGRESS" className={VodCSS['notes-display']}>
 
               </textarea>
             </div>
