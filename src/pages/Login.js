@@ -18,7 +18,6 @@ export const Login = () =>{
           navigate("/home")
        }
        catch(error){
-        console.log("ERROR")
         setFeedback("Invalid username / password combination")
        }
        
