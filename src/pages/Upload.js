@@ -119,7 +119,7 @@ export const Upload = () =>{
                           <option value="Draw"> Draw </option>
                         </select>
  
-                        <input onChange={ (e) => {setVodFile(e.target.files[0])}} type="file" accept="video/mp4" required="true"/>
+                        <input onChange={ (e) => {setVodFile(e.target.files[0])}} type="file" accept="video/*" required="true"/>
 
                         {uploading && <div> Uploading... </div>}
                         {(<button type="submit" className={UploadCSS['publish-button']}>
