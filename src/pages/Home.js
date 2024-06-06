@@ -5,6 +5,8 @@ import {useState, useEffect} from "react"
 import HomeCSS from "../css/home.module.css"
 import { collection, getDocs, query, where, orderBy } from "firebase/firestore"
 import { db } from "../config/firebase"
+import { Timestamp } from "firebase/firestore"
+import { formatDistanceToNow } from "date-fns"
 
 export const Home = () =>{
     const navigate = useNavigate()
@@ -18,6 +20,17 @@ export const Home = () =>{
     const [userID, setUserID] = useState()
     const [userVods, setUserVods] = useState([])
     const [loading, setLoading] = useState(true)
+
+
+    const convertTimestamp = (timestamp) =>{
+      const ms = (timestamp.seconds) * 1000 + (timestamp.nanoseconds / 1000000)
+      return new Date(ms)
+    }
+
+    const fromNow = (timestamp) =>{
+      console.log(timestamp)
+      return formatDistanceToNow(timestamp, {addSuffix: true})
+    }
 
     const handleSignOut = () =>{
       signOut(auth).then( () =>{
@@ -54,10 +67,12 @@ export const Home = () =>{
            const querySnapshot = await getDocs(q)
            querySnapshot.forEach((doc) =>{
              console.log(doc.data())
+             const readableTimestamp = convertTimestamp(doc.data().timestamp)
+             console.log(readableTimestamp)
              const vod_info = {
               agent: doc.data().agent, 
               map: doc.data().map, 
-              timestamp: doc.data().timestamp, 
+              timestamp: readableTimestamp, 
               vod_url: doc.data().video_url, 
               vod_title: doc.data().title, 
               result: doc.data().result, 
@@ -157,7 +172,7 @@ export const Home = () =>{
                     </video>
                     <div className={HomeCSS['vod-title-time']}>
                       <p style={{marginLeft: "15px"}}>
-                        {vod.vod_title} ◦ {new Date(vod.timestamp).toLocaleString()}
+                        {vod.vod_title} ◦ {fromNow(vod.timestamp)}
                       </p>
                     </div>
 
