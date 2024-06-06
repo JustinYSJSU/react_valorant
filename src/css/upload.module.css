@@ -18,6 +18,7 @@
     justify-content: center;
     margin: auto;
     height: 100vh;
+    margin-top: 40px;
 }
 
 .upload-form{
@@ -37,7 +38,6 @@
     height: 100px;
     border-radius: 50%;
     border: none;
-    cursor: pointer;
 }
 
 .post-upload-info{
@@ -57,31 +57,43 @@
     color: #FFFFFF;
     font-size: 18px;
     width: 100%;
+    text-align: center;
 }
 .select-option{
         background-color: #1A1A1A;
         color: #ffffff;
         font-weight: bold;
         border-radius: 5px;
-        border-color: #1A1A1A;
         width: 210px;
         height: 40px;
         justify-content: center;
-        border-color: #FFC107;
         text-align: center;
         cursor: pointer;
         margin-bottom: 20px;
+        border: 1px solid #FFC107;
 }
 
 .publish-button{
-    width: 50%;
-    padding: 10px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 20px;
-    background-color: #FF4645;
-    color: #FFFFFF;
-    cursor: pointer;
-    margin: auto;
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 20px;
+        background-color: #FF4645;
+        color: #FFFFFF;
+        cursor: pointer;
+        margin: auto;
+        border-color: #FFC107;
+        margin-bottom: 10px;
+        font-weight: bold;
+}
+
+.upload-progress{
     font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.upload-complete{
+    font-weight: bold;
+    margin-bottom: 10px;
 }

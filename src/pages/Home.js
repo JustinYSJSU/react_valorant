@@ -139,8 +139,6 @@ export const Home = () =>{
             <div className={HomeCSS['home-top']}> 
               <h1> Library </h1>
               <button onClick={handleSignOut}> Logout </button>
-
-              {username && <div> Hi, {username} </div>}
             </div>
             
             <div className={HomeCSS['vod-options']}>

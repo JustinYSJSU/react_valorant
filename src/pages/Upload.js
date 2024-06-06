@@ -1,7 +1,7 @@
 import { auth, storage, db  } from "../config/firebase"
 import UploadCSS from "../css/upload.module.css"
 import { useState } from "react"
-import {ref, uploadBytes, getDownloadURL} from "firebase/storage"
+import {ref, uploadBytes, getDownloadURL, uploadBytesResumable} from "firebase/storage"
 import {Timestamp, addDoc} from "firebase/firestore"
 import { collection } from "firebase/firestore"
 import { useNavigate } from "react-router-dom"
@@ -18,6 +18,7 @@ export const Upload = () =>{
     const [map, setMap] = useState()
     const [result, setResult] = useState()
 
+    const [uploadPercentage, setUploadPercentage] = useState()
     const navigate = useNavigate()
 
     const handleUpload = async(e) =>{
@@ -27,8 +28,24 @@ export const Upload = () =>{
         try{
             const currentUser = auth.currentUser
             const vodRef = ref(storage, `vods/${currentUser.uid}/${Timestamp.fromDate(new Date())}`)
-            uploadBytes(vodRef, vodFile).then( async () =>{
-                await getDownloadURL(vodRef).then(async (url) =>{
+            const uploadTask = uploadBytesResumable(vodRef, vodFile)
+            uploadTask.on('state_changed', (snapshot) =>{
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                setUploadPercentage(progress)
+                switch(snapshot.state){
+                    case 'paused':
+                        console.log('Upload Paused')
+                        break;
+                    case 'running':
+                        console.log('Upload Running')
+                        break;
+                }
+            },
+            (error) => {
+                console.log(error)
+            }, 
+            () => {
+                getDownloadURL(vodRef).then(async (url) =>{
                     await addDoc(vodsRef, {
                         agent: agent,
                         map: map,
@@ -41,7 +58,8 @@ export const Upload = () =>{
                     setUploadComplete(true)
                     setUploading(false)
                     navigate("/home")
-                })
+            }
+            )
             })
         }
         catch(error){
@@ -68,9 +86,9 @@ export const Upload = () =>{
                     <p style={{fontWeight: "bold"}}> Provide the following VOD information, then upload.</p>
                     <div className={UploadCSS['post-upload-info']}> 
 
-                        <input onChange={ (e) => {setTitle(e.target.value)}} type="text" className={UploadCSS['vod-name']} placeholder="VOD title (20 characters max)." required="true"/>
+                        <input disabled={uploading} onChange={ (e) => {setTitle(e.target.value)}} type="text" className={UploadCSS['vod-name']} placeholder="VOD title" required="true"/>
 
-                        <select onChange={ (e) => {setAgent(e.target.value)}} className={UploadCSS['select-option']} required="true">
+                        <select disabled={uploading} onChange={ (e) => {setAgent(e.target.value)}} className={UploadCSS['select-option']} required="true">
                           <option value=""> Agent </option>
                           <option value="Astra"> Astra </option>
                           <option value="Breach"> Breach </option>
@@ -98,7 +116,7 @@ export const Upload = () =>{
                           <option value="Yoru"> Yoru </option>
                         </select>
 
-                        <select onChange={ (e) => {setMap(e.target.value)}}className={UploadCSS['select-option']} required="true">
+                        <select disabled={uploading} onChange={ (e) => {setMap(e.target.value)}}className={UploadCSS['select-option']} required="true">
                           <option value=""> Map </option>
                           <option value="Ascent"> Ascent </option>
                           <option value="Bind"> Bind </option>
@@ -112,29 +130,26 @@ export const Upload = () =>{
                           <option value="Sunset"> Sunset </option>
                         </select>
                         
-                        <select onChange={ (e) => {setResult(e.target.value)}} className={UploadCSS['select-option']} required="true">
+                        <select disabled={uploading} onChange={ (e) => {setResult(e.target.value)}} className={UploadCSS['select-option']} required="true">
                           <option value=""> Result </option>
                           <option value="Win"> Win </option>
                           <option value="Loss"> Loss </option>
                           <option value="Draw"> Draw </option>
                         </select>
  
-                        <input onChange={ (e) => {setVodFile(e.target.files[0])}} type="file" accept="video/*" required="true"/>
 
-                        {uploading && <div> Uploading... </div>}
+                        <label className={UploadCSS['select-option']}> VOD <input disabled={uploading} placeholder="Upload here" onChange={ (e) => {setVodFile(e.target.files[0])}} type="file" accept="video/*" required="true"/> </label>
+
+                        {uploading && <div className={UploadCSS['upload-progress']}> Uploading... ({Math.round(uploadPercentage)}%) </div>}
+
+                        {uploadPercentage === 100 && <div className={UploadCSS['upload-complete']}> Upload Complete! </div>}
                         {(<button type="submit" className={UploadCSS['publish-button']}>
                             PUBLISH 
                         </button>)}
                         
 
                       </div> 
-                </form> 
-                    
-                    
-                    
-                      
-                    
-               
+                </form>         
             </div>
         </div>
     )
