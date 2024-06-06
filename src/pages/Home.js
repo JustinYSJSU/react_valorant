@@ -20,53 +20,25 @@ export const Home = () =>{
     const [username, setUsername] = useState()
     const [userID, setUserID] = useState()
     const [userVods, setUserVods] = useState([])
+    const [vodsToShow, setVodsToShow] = useState([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() =>{
       const handleUpdate = async () =>{
+        let copyOfUserVods = [...userVods]
         const filteredSettings = Object.fromEntries(
           Object.entries(filterSettings).filter(([key, value]) => value !== 'none')
         );
         console.log(filteredSettings)
-        let q = query(collection(db, "videos"))
-        for(const[key, value] of Object.entries(filteredSettings)){
-          if(key === "time"){
-            if(filteredSettings[key] === "Newest"){
-              q = query(q, orderBy("timestamp", "desc"))
-            }
-            else{
-              q = query(q, orderBy("timestamp", "asc"))
-            }
+        for(const [key, value] of Object.entries(filteredSettings)){
+          if(key !== "time"){
+             console.log(copyOfUserVods)
+             console.log("FILTER BY: " +  key + "=" + value)
+             copyOfUserVods = copyOfUserVods.filter( vod => vod[key] === value)
+             
           }
-          else{
-            q = query(q, where(key, "==", value))
-          }
-          
         }
-
-        try{
-          const filteredVods = []
-          const querySnapshot = await getDocs(q)
-          querySnapshot.forEach( (doc) =>{
-             console.log(doc.data())
-             const readableTimestamp = convertTimestamp(doc.data().timestamp)
-             console.log(readableTimestamp)
-             const vod_info = {
-              agent: doc.data().agent, 
-              map: doc.data().map, 
-              timestamp: readableTimestamp, 
-              vod_url: doc.data().video_url, 
-              vod_title: doc.data().title, 
-              result: doc.data().result, 
-              vod_id: doc.id
-             }
-             filteredVods.push(vod_info)
-          })
-          setUserVods(filteredVods)
-        }
-        catch(error){
-          console.log(error)
-        }
+        setVodsToShow(copyOfUserVods)
       }
       handleUpdate()
     }, [filterSettings])
@@ -153,6 +125,7 @@ export const Home = () =>{
         }
         finally{
           setUserVods(copyOfVods)
+          setVodsToShow(copyOfVods)
           setLoading(false)
         }
          
@@ -232,15 +205,18 @@ export const Home = () =>{
             </div>
             
             <div className={HomeCSS['vod-feed']}>
-               {!loading && userVods.length === 0 && <h2 style={{marginLeft: "15px"}}> No VODS to review.</h2>}
-               {!loading && userVods.length !== 0 && userVods.map(vod => (
-                  <div className={HomeCSS['vod-display']}>
-                    <video  onClick={() => navigate(`/vod/${vod.vod_id}`)} className={HomeCSS['vod']} width="60%" height="60%" controls preload="metadata"> 
-                      <source src={vod.vod_url + "#t=0.1"}  type="video/mp4" />
+               {!loading && vodsToShow.length === 0 && <h2 style={{marginLeft: "15px"}}> No VODS to review.</h2>}
+               {!loading && vodsToShow.length !== 0 && vodsToShow.map(vod => (
+                  <div className={HomeCSS['vod-display']} key={vod.vod_id}>
+                    <video className={HomeCSS['vod']} width="60%" height="60%" controls preload="metadata"> 
+                      <source src={vod.vod_url + "#t=0.1"}  type="video/mp4"/>
                     </video>
                     <div className={HomeCSS['vod-title-time']}>
                       <p style={{marginLeft: "15px"}}>
-                        {vod.vod_title} ◦ {fromNow(vod.timestamp)}
+                      <a className={HomeCSS['vod-title']}
+                        onClick={() => navigate(`/vod/${vod.vod_id}`)}
+                      >
+                      {vod.vod_title} </a> ◦ {fromNow(vod.timestamp)}
                       </p>
                     </div>
 

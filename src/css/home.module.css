@@ -110,3 +110,11 @@
     flex-direction: row;
     margin-bottom: 0%;
 }
+
+.vod-title{
+    cursor: pointer;
+}
+
+.vod-title:hover{
+    text-decoration: underline;
+}
