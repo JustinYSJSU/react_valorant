@@ -211,7 +211,7 @@ export const Home = () =>{
                     <video className={HomeCSS['vod']} width="60%" height="60%" controls preload="metadata"> 
                       <source src={vod.vod_url + "#t=0.1"}  type="video/mp4"/>
                     </video>
-                    <div className={HomeCSS['vod-title-time']}>
+                    <div className={HomeCSS['vod-title-time']} onClick={() => navigate(`/vod/${vod.vod_id}`)}>
                       <p style={{marginLeft: "15px"}}>
                       <a className={HomeCSS['vod-title']}
                         onClick={() => navigate(`/vod/${vod.vod_id}`)}
@@ -220,7 +220,7 @@ export const Home = () =>{
                       </p>
                     </div>
 
-                    <div className={HomeCSS['vod-desc']}>
+                    <div className={HomeCSS['vod-desc']} onClick={() => navigate(`/vod/${vod.vod_id}`)}>
                       <p style={{marginLeft: "15px"}}> Agent: {vod.agent} </p>
                       <p style={{marginLeft: "10px"}}> Map: {vod.map} </p>
                       <p style={{marginLeft: "10px"}}> Result: {vod.result} </p>
