@@ -3,24 +3,73 @@ import { signOut } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
 import {useState, useEffect} from "react"
 import HomeCSS from "../css/home.module.css"
-import { collection, getDocs, query, where, orderBy } from "firebase/firestore"
+import { collection, getDocs, query, where, orderBy, getDoc } from "firebase/firestore"
 import { db } from "../config/firebase"
-import { Timestamp } from "firebase/firestore"
 import { formatDistanceToNow } from "date-fns"
 
 export const Home = () =>{
     const navigate = useNavigate()
 
-    const [agent, setAgent] = useState()
-    const [map, setMap] = useState()
-    const [result, setResult] = useState()
-    const [time, setTime] = useState()
+    const [filterSettings, setFilterSettings] = useState({
+      agent: "none",
+      map: "none", 
+      result: "none", 
+      time: "none"
+    })
 
     const [username, setUsername] = useState()
     const [userID, setUserID] = useState()
     const [userVods, setUserVods] = useState([])
     const [loading, setLoading] = useState(true)
 
+    useEffect(() =>{
+      const handleUpdate = async () =>{
+        const filteredSettings = Object.fromEntries(
+          Object.entries(filterSettings).filter(([key, value]) => value !== 'none')
+        );
+        console.log(filteredSettings)
+        let q = query(collection(db, "videos"))
+        for(const[key, value] of Object.entries(filteredSettings)){
+          if(key === "time"){
+            if(filteredSettings[key] === "Newest"){
+              q = query(q, orderBy("timestamp", "desc"))
+            }
+            else{
+              q = query(q, orderBy("timestamp", "asc"))
+            }
+          }
+          else{
+            q = query(q, where(key, "==", value))
+          }
+          
+        }
+
+        try{
+          const filteredVods = []
+          const querySnapshot = await getDocs(q)
+          querySnapshot.forEach( (doc) =>{
+             console.log(doc.data())
+             const readableTimestamp = convertTimestamp(doc.data().timestamp)
+             console.log(readableTimestamp)
+             const vod_info = {
+              agent: doc.data().agent, 
+              map: doc.data().map, 
+              timestamp: readableTimestamp, 
+              vod_url: doc.data().video_url, 
+              vod_title: doc.data().title, 
+              result: doc.data().result, 
+              vod_id: doc.id
+             }
+             filteredVods.push(vod_info)
+          })
+          setUserVods(filteredVods)
+        }
+        catch(error){
+          console.log(error)
+        }
+      }
+      handleUpdate()
+    }, [filterSettings])
 
     const convertTimestamp = (timestamp) =>{
       const ms = (timestamp.seconds) * 1000 + (timestamp.nanoseconds / 1000000)
@@ -28,8 +77,27 @@ export const Home = () =>{
     }
 
     const fromNow = (timestamp) =>{
-      console.log(timestamp)
       return formatDistanceToNow(timestamp, {addSuffix: true})
+    }
+
+    const handleAgentChange = async (e) =>{
+      const copyOfFilterSettings = {...filterSettings, agent: e.target.value}
+      setFilterSettings(copyOfFilterSettings)
+    }
+
+    const handleMapChange = (e) =>{
+      const copyOfFilterSettings = {...filterSettings, map: e.target.value}
+      setFilterSettings(copyOfFilterSettings)
+    }
+
+    const handleResultChange =(e) =>{
+      const copyOfFilterSettings = {...filterSettings, result: e.target.value}
+      setFilterSettings(copyOfFilterSettings)
+    }
+
+    const handleTimeChange = (e) =>{
+      const copyOfFilterSettings = {...filterSettings, time: e.target.value}
+      setFilterSettings(copyOfFilterSettings)
     }
 
     const handleSignOut = () =>{
@@ -61,7 +129,6 @@ export const Home = () =>{
          }
          
          try{
-           
            setLoading(true)
            const q = query(collection(db, "videos"), where ("user_id", "==", userID), orderBy("timestamp", "desc"))
            const querySnapshot = await getDocs(q)
@@ -105,8 +172,8 @@ export const Home = () =>{
             
             <div className={HomeCSS['vod-options']}>
               <form>
-                <select className={HomeCSS['select-option-first']} >
-                  <option value="non"> Agent </option>
+                <select onChange={(e) => {handleAgentChange(e)}} className={HomeCSS['select-option-first']} >
+                  <option value="none"> Agent </option>
                   <option value="Astra"> Astra </option>
                   <option value="Breach"> Breach </option>
                   <option value="Brimstone"> Brimstone </option>
@@ -133,8 +200,8 @@ export const Home = () =>{
                   <option value="Yoru"> Yoru </option>
                 </select>
 
-                <select className={HomeCSS['select-option']}>
-                  <option value="non"> Map </option>
+                <select onChange={(e) => {handleMapChange(e)}} className={HomeCSS['select-option']}>
+                  <option value="none"> Map </option>
                   <option value="Ascent"> Ascent </option>
                   <option value="Bind"> Bind </option>
                   <option value="Breeze"> Breeze </option>
@@ -147,24 +214,25 @@ export const Home = () =>{
                   <option value="Sunset"> Sunset </option>
                 </select>
 
-                <select className={HomeCSS['select-option']}>
-                  <option className={HomeCSS['select-value']} value="non"> Result </option>
-                  <option className={HomeCSS['select-value']} value="non"> Win </option>
-                  <option className={HomeCSS['select-value']} value="non"> Loss </option>
-                  <option className={HomeCSS['select-value']} value="non"> Draw </option>
+                <select onChange={(e) => {handleResultChange(e)}} className={HomeCSS['select-option']}>
+                  <option className={HomeCSS['select-value']} value="none"> Result </option>
+                  <option className={HomeCSS['select-value']} value="Win"> Win </option>
+                  <option className={HomeCSS['select-value']} value="Loss"> Loss </option>
+                  <option className={HomeCSS['select-value']} value="Draw"> Draw </option>
                 </select>
 
-                <select className={HomeCSS['select-option']}>
-                  <option value="non"> Time </option>
-                  <option className={HomeCSS['select-value']} value="non"> Newest </option>
-                  <option className={HomeCSS['select-value']} value="non"> Oldest </option>
+                <select onChange={(e) => {handleTimeChange(e)}} className={HomeCSS['select-option']}>
+                  <option value="none"> Time </option>
+                  <option className={HomeCSS['select-value']} value="Newest"> Newest </option>
+                  <option className={HomeCSS['select-value']} value="Oldest"> Oldest </option>
                 </select>
                </form>
+
                <button className={HomeCSS['upload-button']} onClick={() => navigate("/upload")}> UPLOAD </button>
             </div>
             
             <div className={HomeCSS['vod-feed']}>
-               {!loading && userVods.length === 0 && <h2 style={{marginLeft: "15px"}}> No VODS to review. Upload one! </h2>}
+               {!loading && userVods.length === 0 && <h2 style={{marginLeft: "15px"}}> No VODS to review.</h2>}
                {!loading && userVods.length !== 0 && userVods.map(vod => (
                   <div className={HomeCSS['vod-display']}>
                     <video  onClick={() => navigate(`/vod/${vod.vod_id}`)} className={HomeCSS['vod']} width="60%" height="60%" controls preload="metadata"> 
