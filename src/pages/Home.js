@@ -63,7 +63,7 @@ export const Home = () =>{
          try{
            
            setLoading(true)
-           const q = query(collection(db, "videos"), where ("user_id", "==", userID))
+           const q = query(collection(db, "videos"), where ("user_id", "==", userID), orderBy("timestamp", "desc"))
            const querySnapshot = await getDocs(q)
            querySnapshot.forEach((doc) =>{
              console.log(doc.data())
@@ -164,7 +164,7 @@ export const Home = () =>{
             </div>
             
             <div className={HomeCSS['vod-feed']}>
-               {!loading && userVods.length === 0 && <h2> No VODS to review. Upload one! </h2>}
+               {!loading && userVods.length === 0 && <h2 style={{marginLeft: "15px"}}> No VODS to review. Upload one! </h2>}
                {!loading && userVods.length !== 0 && userVods.map(vod => (
                   <div className={HomeCSS['vod-display']}>
                     <video  onClick={() => navigate(`/vod/${vod.vod_id}`)} className={HomeCSS['vod']} width="60%" height="60%" controls preload="metadata"> 
