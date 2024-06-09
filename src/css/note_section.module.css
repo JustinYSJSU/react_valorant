@@ -1,0 +1,10 @@
+
+.notes-display{
+    margin-left: 40px;
+    margin-top: 20px;
+    width: 30%;
+    background-color: #222222;
+    resize: none;
+    overflow-y: auto;
+    color: white;
+}
