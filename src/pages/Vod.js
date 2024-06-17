@@ -55,11 +55,18 @@ export const Vod = () =>{
         querySnapshot.forEach((doc) => {
           copyOfNotes.push(doc.data());
         });
+        orderNotes(copyOfNotes)
         setNotes(copyOfNotes);
+        setNotesToShow(copyOfNotes)
         setAddingNote(false);
       } catch (error) {
         console.log(error);
       }
+    }
+
+    const orderNotes = (notes) =>{
+      notes.sort( (a, b) => a.timestamp - b.timestamp)
+      return notes
     }
 
     const handlePlay = () =>{
@@ -105,11 +112,14 @@ export const Vod = () =>{
           querySnapshot.forEach((doc) => {
             copyOfNotes.push(doc.data());
           });
+          copyOfNotes.sort( (a,b) => a.timestamp - b.timestamp)
         } catch (error) {
           console.log(error);
         } finally {
-          setNotes(copyOfNotes);
+          setNotes(orderNotes(copyOfNotes))
           setNotesToShow(copyOfNotes)
+        
+          
         }
       };
   
@@ -123,10 +133,11 @@ export const Vod = () =>{
       let userNotes = [...notes]
       if(e.target.value !== ""){
         userNotes = userNotes.filter( note => note.tag === e.target.value.toLowerCase())
-        setNotesToShow(userNotes)
+        setNotesToShow(orderNotes(userNotes))
       }
       else{
-        setNotesToShow(userNotes)
+
+        setNotesToShow(orderNotes(userNotes))
       }
        
     }
