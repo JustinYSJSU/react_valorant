@@ -117,9 +117,7 @@ export const Vod = () =>{
           console.log(error);
         } finally {
           setNotes(orderNotes(copyOfNotes))
-          setNotesToShow(copyOfNotes)
-        
-          
+          setNotesToShow(copyOfNotes)  
         }
       };
   
