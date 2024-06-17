@@ -175,7 +175,7 @@ export const Vod = () =>{
               </div>}
               
               <div className={VodCSS['notes-display']}>
-                <select onChange={(e) => handleTagFilter(e)} className={VodCSS['select-tag']}>
+                <select onChange={(e) => handleTagFilter(e)} className={VodCSS['select-tag-notes']}>
                   <option value=""> Filter by... </option>
                   <option value="Mechanics"> Mechanics </option>
                   <option value="Communication"> Communication </option>

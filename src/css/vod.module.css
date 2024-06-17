@@ -90,7 +90,7 @@
     height: 40px;
 }
 
-.select-tag{
+.select-tag-notes{
     background-color: #1A1A1A;
     color: #ffffff;
     font-weight: bold;
@@ -103,6 +103,21 @@
     text-align: center;
     cursor: pointer;
     margin-left: 20px;
+}
+
+.select-tag-notes{
+    background-color: #1A1A1A;
+    color: #ffffff;
+    font-weight: bold;
+    border-radius: 5px;
+    border-color: #1A1A1A;
+    width: 150px;
+    height: 40px;
+    margin-top: 20px;
+    border-color: #FFC107;
+    text-align: center;
+    cursor: pointer;
+    margin-left: 30px;
 }
 
 .select-tag-second{
@@ -170,6 +185,7 @@
     flex-wrap: wrap;
     margin-top: 10px; 
     justify-content: left; 
+    margin-left: 10px;
 }
 
 .note{
