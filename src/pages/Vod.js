@@ -10,6 +10,7 @@ export const Vod = () =>{
     const {vodID} = useParams()
     const [vod, setVod] = useState()
     const [notes, setNotes] = useState([])
+    const [notesToShow, setNotesToShow] = useState([])
 
     const [addingNote, setAddingNote] = useState(false)
     const [addNoteButton, setAddNoteButton] = useState(false)
@@ -73,11 +74,14 @@ export const Vod = () =>{
        }
     }
 
+    
     const goToTimestamp = (time) => {
-      if (vodRef.current) {
-        vodRef.current.currentTime = time;
-      }
+      
+      vodRef.current.currentTime = time;
+      console.log("VOD REF HERE")
+      
     };
+    
 
     useEffect( () =>{
         const getVod = async () =>{
@@ -105,6 +109,7 @@ export const Vod = () =>{
           console.log(error);
         } finally {
           setNotes(copyOfNotes);
+          setNotesToShow(copyOfNotes)
         }
       };
   
@@ -113,6 +118,19 @@ export const Vod = () =>{
 
     console.log(notes)
     console.log(notes.length)
+
+    const handleTagFilter = (e) =>{
+      let userNotes = [...notes]
+      if(e.target.value !== ""){
+        userNotes = userNotes.filter( note => note.tag === e.target.value.toLowerCase())
+        setNotesToShow(userNotes)
+      }
+      else{
+        setNotesToShow(userNotes)
+      }
+       
+    }
+
     return(
         <div className={VodCSS['vod-page-container']}>
             <div className={VodCSS['vod-page-top']}> 
@@ -148,7 +166,7 @@ export const Vod = () =>{
               </div>}
               
               <div className={VodCSS['notes-display']}>
-                <select onChange={(e) => setTagFilter(e.target.value)} className={VodCSS['select-tag']}>
+                <select onChange={(e) => handleTagFilter(e)} className={VodCSS['select-tag']}>
                   <option value=""> Filter by... </option>
                   <option value="Mechanics"> Mechanics </option>
                   <option value="Communication"> Communication </option>
@@ -176,10 +194,10 @@ export const Vod = () =>{
                    }
 
                   <div className={VodCSS['user-notes']}>
-                    {notes.length !== 0 ? (
-                    notes.map((note) => (
+                    {notesToShow.length !== 0 ? (
+                    notesToShow.map((note) => (
                     <div className={VodCSS['note']}> 
-                       <a onClick={goToTimestamp(note.timestamp)} className={VodCSS['note-timestamp-link']}> <h3 className={VodCSS['note-timestamp']}> {note.timestampConverted} </h3> </a>
+                       <a onClick={() => goToTimestamp(note.timestamp)} className={VodCSS['note-timestamp-link']}> <h3 className={VodCSS['note-timestamp']}> {note.timestampConverted} </h3> </a>
                        <p className={VodCSS['note-comment']}> {note.comment} </p>
                        {note.tag === 'mechanics' && 
                        <div className={VodCSS['tag-mechanics']}>
