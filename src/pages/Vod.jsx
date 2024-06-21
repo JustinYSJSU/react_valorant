@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { collection, getDocs, query, where, addDoc} from "firebase/firestore"
 import { db,auth } from "../config/firebase"
 import { format, intervalToDuration } from "date-fns"
-import { NoteSection} from "../components/NoteSection"
+import ResponsiveAppBar from "../components/Navigation";
 
 export const Vod = () =>{
     const {vodID} = useParams()
@@ -142,9 +142,7 @@ export const Vod = () =>{
 
     return(
         <div className={VodCSS['vod-page-container']}>
-            <div className={VodCSS['vod-page-top']}> 
-              <h1> Review VOD </h1>
-            </div>
+            <ResponsiveAppBar />
 
             <div className={VodCSS['vod-and-notes']}>
               {!vod && <div> Loading VOD... </div>}

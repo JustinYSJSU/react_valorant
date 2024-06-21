@@ -6,6 +6,8 @@ import { Register } from './pages/Register';
 import { Home } from './pages/Home';
 import { Upload } from './pages/Upload';
 import {Vod} from './pages/Vod';
+import {ResponsiveAppBar} from './components/Navigation';
+
 function App() {
   return (
     <div className="App">
@@ -16,6 +18,7 @@ function App() {
           <Route path = "/home" element={<Home />} />
           <Route path = "/upload" element={<Upload />} />
           <Route path = "/vod/:vodID" element={<Vod />} />
+          <Route path = "/navTest" element={<ResponsiveAppBar />} />
         </Routes>
         
       </Router>

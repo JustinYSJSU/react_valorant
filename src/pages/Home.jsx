@@ -6,6 +6,7 @@ import HomeCSS from "../css/home.module.css"
 import { collection, getDocs, query, where, orderBy, getDoc } from "firebase/firestore"
 import { db } from "../config/firebase"
 import { formatDistanceToNow } from "date-fns"
+import ResponsiveAppBar from "../components/Navigation";
 
 export const Home = () =>{
     const navigate = useNavigate()
@@ -135,11 +136,10 @@ export const Home = () =>{
     
 
     return(
+        
         <div className={HomeCSS['home-container']}>
-            <div className={HomeCSS['home-top']}> 
-              <h1> Library </h1>
-              <button onClick={handleSignOut}> Logout </button>
-            </div>
+          <ResponsiveAppBar />
+           
             
             <div className={HomeCSS['vod-options']}>
               <form>

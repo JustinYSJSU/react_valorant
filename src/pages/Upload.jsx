@@ -5,6 +5,7 @@ import {ref, uploadBytes, getDownloadURL, uploadBytesResumable} from "firebase/s
 import {Timestamp, addDoc, setDoc} from "firebase/firestore"
 import { collection } from "firebase/firestore"
 import { useNavigate } from "react-router-dom"
+import ResponsiveAppBar from "../components/Navigation";
 
 export const Upload = () =>{
 
@@ -70,9 +71,7 @@ export const Upload = () =>{
 
     return(
         <div className={UploadCSS['upload-container']}>
-            <div className={UploadCSS['upload-top']}> 
-              <h1> Upload VOD </h1>
-            </div>
+            <ResponsiveAppBar />
 
             <div className={UploadCSS['upload-form-container']}>
                 <form onSubmit={handleUpload} className={UploadCSS['upload-form']}>
