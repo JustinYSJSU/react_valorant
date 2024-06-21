@@ -6,7 +6,7 @@ import { Register } from './pages/Register';
 import { Home } from './pages/Home';
 import { Upload } from './pages/Upload';
 import {Vod} from './pages/Vod';
-import {ResponsiveAppBar} from './components/Navigation';
+import { Profile } from './pages/Profile';
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
           <Route path = "/home" element={<Home />} />
           <Route path = "/upload" element={<Upload />} />
           <Route path = "/vod/:vodID" element={<Vod />} />
-          <Route path = "/navTest" element={<ResponsiveAppBar />} />
+          <Route path = "/profile/:userID" element={<Profile />} />
         </Routes>
         
       </Router>

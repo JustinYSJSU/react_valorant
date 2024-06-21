@@ -13,19 +13,17 @@ import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../config/firebase';
 import { useState, useEffect } from 'react';
-
+import { signOut } from 'firebase/auth';
 const pages = ['Home', 'Upload'];
 const settings = ['Profile','Logout'];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [picture, setPicture] = useState()
+  const [user, setUser] = useState()
 
   const navigate = useNavigate()
 
-  const currentUser = auth.currentUser
-  console.log(currentUser)
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -41,11 +39,19 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
+  const handleSignOut = () =>{
+    signOut(auth).then( () =>{
+      navigate("/")
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
+
   useEffect( () =>{
     const getUserInfo = async () =>{
       auth.onAuthStateChanged( (user) =>{
         if(user){
-          setPicture(user.photoURL)
+          setUser(user)
         }
       })
     }
@@ -140,7 +146,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar src={`/${picture}`} />
+                {user && <Avatar alt={user.displayName} src={`${user.photoURL}`} />}
               </IconButton>
             </Tooltip>
             <Menu
@@ -160,9 +166,16 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
+                setting === "Profile" && (
+                  <MenuItem key={setting} onClick={() => navigate(`/profile/${user.uid}`)}>
+                    <Typography textAlign="center"> {setting} </Typography>
+                  </MenuItem>
+                ) ||
+                setting === "Logout" && (
+                  <MenuItem key={setting} onClick={handleSignOut}>
+                    <Typography textAlign="center"> {setting} </Typography>
+                  </MenuItem>
+                )
               ))}
             </Menu>
           </Box>

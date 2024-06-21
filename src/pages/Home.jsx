@@ -73,13 +73,7 @@ export const Home = () =>{
       setFilterSettings(copyOfFilterSettings)
     }
 
-    const handleSignOut = () =>{
-      signOut(auth).then( () =>{
-        navigate("/")
-      }).catch((error) => {
-        console.log(error)
-      })
-    }
+    
 
     useEffect( () =>{
       const getUserInfo = async () =>{
