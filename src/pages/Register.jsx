@@ -38,6 +38,7 @@ export const Register = () =>{
         try{
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
+            console.log("UID: " + user.uid)
             console.log(user)
             const usersRef = collection(db, "users")
 
@@ -49,7 +50,8 @@ export const Register = () =>{
                     await addDoc(usersRef, {
                       email: email, 
                       profile_picture: url,
-                      username: username
+                      username: username, 
+                      user_id: user.uid
                     })
                     await updateProfile(user, {displayName: username, photoURL: url})
                     setFeedback("Account created successfully")
@@ -61,7 +63,8 @@ export const Register = () =>{
                 await addDoc(usersRef, {
                     email: email, 
                     profile_picture: '',
-                    username: username
+                    username: username, 
+                    user_id: user.uid
                   })
                   await updateProfile(user, {displayName: username, photoURL: ''})
                   setFeedback("Account created successfully")
@@ -91,6 +94,7 @@ export const Register = () =>{
           <input className={RegisterCSS['register-form-username']} onChange={(e) => setUsername(e.target.value)} type="text" placeholder="Username" />
           <input className={RegisterCSS['register-form-email']} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email" />
           <input className={RegisterCSS['register-form-password']} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" />
+          
           
           <label className={RegisterCSS['register-form-username']}> Profile Picture <input placeholder="Profile Picture" onChange={(e) => setProfilePicture(e.target.files[0])} type="file" accept="image/png, image/jpg"/> </label>
           <button className={RegisterCSS['register-form-button']} type="submit"> REGISTER </button>
