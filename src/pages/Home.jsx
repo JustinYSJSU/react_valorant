@@ -6,7 +6,7 @@ import HomeCSS from "../css/home.module.css"
 import { collection, getDocs, query, where, orderBy, getDoc } from "firebase/firestore"
 import { db } from "../config/firebase"
 import { formatDistanceToNow } from "date-fns"
-import ResponsiveAppBar from "../components/Navigation";
+import ResponsiveAppBar from "../components/Appbar"
 
 export const Home = () =>{
     const navigate = useNavigate()

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { collection, getDocs, query, where, addDoc} from "firebase/firestore"
 import { db,auth } from "../config/firebase"
 import { format, intervalToDuration } from "date-fns"
-import ResponsiveAppBar from "../components/Navigation";
+import ResponsiveAppBar from "../components/Appbar"
 
 export const Vod = () =>{
     const {vodID} = useParams()

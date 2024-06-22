@@ -5,8 +5,7 @@ import {ref, uploadBytes, getDownloadURL, uploadBytesResumable} from "firebase/s
 import {Timestamp, addDoc, setDoc} from "firebase/firestore"
 import { collection } from "firebase/firestore"
 import { useNavigate } from "react-router-dom"
-import ResponsiveAppBar from "../components/Navigation";
-
+import ResponsiveAppBar from "../components/Appbar"
 export const Upload = () =>{
 
     const [uploading, setUploading] = useState(false)
