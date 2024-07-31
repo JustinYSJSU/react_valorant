@@ -27,7 +27,7 @@ export const Login = () =>{
       <div className={LoginCSS['login-page']}>
         <div className={LoginCSS['login-container']}>
         <div className={LoginCSS['image-container']}>
-          <img src="https://firebasestorage.googleapis.com/v0/b/react-valorant.appspot.com/o/application%2Fdesktop-wallpaper-blue-geometric-abstract-https-www-redbubble-people-leen12-shop-asc-u-blue-geometry-abstract.jpg?alt=media&token=b778c7a7-1e63-4596-a116-c34b1b261be3" alt="Description of image" className={LoginCSS['login-image']} />
+          <img src="https://firebasestorage.googleapis.com/v0/b/react-valorant.appspot.com/o/application%2F26799f739d39fa99a7b5847a8f999706.jpg?alt=media&token=e592d27c-8888-4925-b8c9-a2c1062a833d" alt="Description of image" className={LoginCSS['login-image']} />
         </div>
          <div className={LoginCSS['login-form-container']}>
           <h1 className={LoginCSS['website-title']}> VALORANT VOD REVIEW</h1>

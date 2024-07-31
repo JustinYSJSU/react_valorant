@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { auth } from '../config/firebase';
 import { useState, useEffect } from 'react';
 import { signOut } from 'firebase/auth';
-const pages = ['Home', 'Upload', 'About'];
+const pages = ['Home', 'Upload', 'About', 'Legal'];
 const settings = ['Profile','Logout'];
 
 function ResponsiveAppBar() {

@@ -43,6 +43,7 @@ export const Profile = () =>{
               }}>
 
               {user && 
+               
                  <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                    <Avatar src={user.profile_picture} sx={{ height: 102, width: 102, marginTop: "20px" }} />
                    <Typography variant="h4" sx={{ fontFamily: "Arial", fontWeight: "bold", marginTop: "10px" }}>
@@ -68,6 +69,10 @@ export const Profile = () =>{
                          Discord:  
                        </Typography>
                      </Box>
+
+                     <Typography variant="h6" sx={{ marginLeft: "5px", fontFamily: "Arial", fontWeight: "bold"}}>
+                         Profiles are in currently in development! 
+                       </Typography>
 
         
                    </Box>      

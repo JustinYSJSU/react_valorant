@@ -8,6 +8,7 @@ import { Upload } from './pages/Upload';
 import {Vod} from './pages/Vod';
 import { Profile } from './pages/Profile';
 import {About} from './pages/About';
+import {Legal} from './pages/Legal';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path = "/vod/:vodID" element={<Vod />} />
           <Route path = "/profile/:userID" element={<Profile />} />
           <Route path= "/about" element={<About />} />
+          <Route path= "/legal" element={<Legal />} />
         </Routes>
         
       </Router>

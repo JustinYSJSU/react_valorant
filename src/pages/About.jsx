@@ -44,14 +44,8 @@ export const About = () =>{
                        <Typography variant="h6" sx={{ marginLeft: "5px", marginfontFamily: "Arial", marginTop: "10px" }}>
                           I am a recent graduate with a Bachelor of Science in Software Engineering. VALORANT is my first PC game, and I have played since
                           release. When I first started playing, I struggled to find an easy and organized way to analyze my gameplay and streamline my progress. I created 
-                          VALORANT Vod Review as a way to help players of all skill levels analyze and improve their gameplay. Please feel free to view the source code or contact me using the information provided below.
+                          VALORANT Vod Review as a way to help players of all skill levels analyze and improve their gameplay.
                        </Typography>
-                </Box>
-
-                <Box sx={{width:'100%', marginTop: "10%"}}>
-                  <Button size="large" variant="contained"> <a href="https://github.com/JustinYSJSU/react_valorant"> PROJECT SOURCE CODE </a> </Button>
-                  <Button sx={{marginLeft: "20px"}} size="large" variant="contained"> Discord: kigeki1714 </Button>
-                  <Button sx={{marginLeft: "20px"}} size="large" variant="contained"> <a href="https://www.linkedin.com/in/justin-yamamoto-b9192824b/"> LinkedIn </a> </Button>
                 </Box>
             </Box>
             </div>
