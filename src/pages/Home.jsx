@@ -167,6 +167,7 @@ export const Home = () =>{
 
                 <select onChange={(e) => {handleMapChange(e)}} className={HomeCSS['select-option']}>
                   <option value="none"> Map </option>
+                  <option value="Abyss"> Abyss </option>
                   <option value="Ascent"> Ascent </option>
                   <option value="Bind"> Bind </option>
                   <option value="Breeze"> Breeze </option>
@@ -186,11 +187,6 @@ export const Home = () =>{
                   <option className={HomeCSS['select-value']} value="Draw"> Draw </option>
                 </select>
 
-                <select onChange={(e) => {handleTimeChange(e)}} className={HomeCSS['select-option']}>
-                  <option value="none"> Time </option>
-                  <option className={HomeCSS['select-value']} value="Newest"> Newest </option>
-                  <option className={HomeCSS['select-value']} value="Oldest"> Oldest </option>
-                </select>
                </form>
 
                <button className={HomeCSS['upload-button']} onClick={() => navigate("/upload")}> UPLOAD </button>

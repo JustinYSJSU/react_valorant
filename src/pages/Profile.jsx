@@ -68,6 +68,8 @@ export const Profile = () =>{
                          Discord:  
                        </Typography>
                      </Box>
+
+        
                    </Box>      
                  </Box>
 

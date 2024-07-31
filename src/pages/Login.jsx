@@ -27,10 +27,10 @@ export const Login = () =>{
       <div className={LoginCSS['login-page']}>
         <div className={LoginCSS['login-container']}>
         <div className={LoginCSS['image-container']}>
-          <img src="https://firebasestorage.googleapis.com/v0/b/react-valorant.appspot.com/o/application%2Fezgif-3-4dfcd255d0.jpg?alt=media&token=991440b2-af5e-4a08-862d-c85ebf28fd2b" alt="Description of image" className={LoginCSS['login-image']} />
+          <img src="https://firebasestorage.googleapis.com/v0/b/react-valorant.appspot.com/o/application%2Fdesktop-wallpaper-blue-geometric-abstract-https-www-redbubble-people-leen12-shop-asc-u-blue-geometry-abstract.jpg?alt=media&token=b778c7a7-1e63-4596-a116-c34b1b261be3" alt="Description of image" className={LoginCSS['login-image']} />
         </div>
          <div className={LoginCSS['login-form-container']}>
-          <h1 className={LoginCSS['website-title']}> VALORANT VOD REVIEW APP </h1>
+          <h1 className={LoginCSS['website-title']}> VALORANT VOD REVIEW</h1>
           <h2 className={LoginCSS['website-desc']}> Upload. Review. Improve. </h2>
     
          <form className={LoginCSS['login-form']} onSubmit={handleLogin}>
@@ -45,6 +45,10 @@ export const Login = () =>{
             >
               Ready to rank up? Click here to register.
             </a>
+         </div>
+
+         <div className={LoginCSS['legal-terms']}>
+         VALORANT VOD Review was created under Riot Games' "Legal Jibber Jabber" policy using assets owned by Riot Games.  Riot Games does not endorse or sponsor this project.
          </div>
           </div>
       </div>

@@ -7,6 +7,7 @@ import { Home } from './pages/Home';
 import { Upload } from './pages/Upload';
 import {Vod} from './pages/Vod';
 import { Profile } from './pages/Profile';
+import {About} from './pages/About';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path = "/upload" element={<Upload />} />
           <Route path = "/vod/:vodID" element={<Vod />} />
           <Route path = "/profile/:userID" element={<Profile />} />
+          <Route path= "/about" element={<About />} />
         </Routes>
         
       </Router>

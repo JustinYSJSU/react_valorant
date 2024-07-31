@@ -23,7 +23,7 @@
 
 .login-image {
     width: 50%;
-    height: 50%;
+    height: 100%;
     object-fit: cover;
 }
 
@@ -84,5 +84,10 @@
     margin-top: 20px;
     font-size: 18px;
     color: #FFFFFF;
+}
+
+.legal-terms{
+    margin-top: 10px;
+    color: #FFA500;
 }
 

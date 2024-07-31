@@ -117,6 +117,7 @@ export const Upload = () =>{
 
                         <select disabled={uploading} onChange={ (e) => {setMap(e.target.value)}}className={UploadCSS['select-option']} required="true">
                           <option value=""> Map </option>
+                          <option value="Abyss"> Abyss </option>
                           <option value="Ascent"> Ascent </option>
                           <option value="Bind"> Bind </option>
                           <option value="Breeze"> Breeze </option>

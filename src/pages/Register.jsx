@@ -83,7 +83,7 @@ export const Register = () =>{
     <div className={RegisterCSS['register-page']}>
        <div className={RegisterCSS['register-container']}>
       <div className={RegisterCSS['image-container']}>
-          <img src="https://firebasestorage.googleapis.com/v0/b/react-valorant.appspot.com/o/application%2Fvalorant-jett-player-card.jpg?alt=media&token=1d116126-3476-43a6-9f51-a5881e7bebdf" alt="Description of image" className={RegisterCSS['register-image']} />
+          <img src="https://firebasestorage.googleapis.com/v0/b/react-valorant.appspot.com/o/application%2F55692-1080x1920-orange-and-black-wallpaper-image-phone-hd.jpg?alt=media&token=ab647e35-a702-4ea8-ae99-709c7a1b372a" alt="Description of image" className={RegisterCSS['register-image']} />
       </div>
 
       <div className={RegisterCSS['register-form-container']}>

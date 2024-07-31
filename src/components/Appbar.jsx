@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { auth } from '../config/firebase';
 import { useState, useEffect } from 'react';
 import { signOut } from 'firebase/auth';
-const pages = ['Home', 'Upload'];
+const pages = ['Home', 'Upload', 'About'];
 const settings = ['Profile','Logout'];
 
 function ResponsiveAppBar() {
@@ -76,7 +76,7 @@ function ResponsiveAppBar() {
           textDecoration: 'none',
         }}
       >
-        VVRA
+        VVR
       </Typography>
 
       <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
