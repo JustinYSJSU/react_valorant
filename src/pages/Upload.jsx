@@ -112,6 +112,7 @@ export const Upload = () =>{
                           <option value="Skye"> Skye </option>
                           <option value="Sova"> Sova </option>
                           <option value="Viper"> Viper </option>
+                          <option value="Vyse"> Vyse </option>
                           <option value="Yoru"> Yoru </option>
                         </select>
 
