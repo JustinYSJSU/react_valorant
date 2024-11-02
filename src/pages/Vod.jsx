@@ -5,6 +5,9 @@ import { collection, getDocs, query, where, addDoc} from "firebase/firestore"
 import { db,auth } from "../config/firebase"
 import { format, intervalToDuration } from "date-fns"
 import ResponsiveAppBar from "../components/Appbar"
+import PersonAddAlt1OutlinedIcon from '@mui/icons-material/PersonAddAlt1Outlined';
+import { Button } from "@mui/material"
+import Typography from '@mui/material/Typography';
 
 export const Vod = () =>{
     const {vodID} = useParams()
@@ -163,9 +166,11 @@ export const Vod = () =>{
                       <p style={{marginLeft: "15px"}}> Agent: {vod.agent} </p>
                       <p style={{marginLeft: "10px"}}> Map: {vod.map} </p>
                       <p style={{marginLeft: "10px"}}> Result: {vod.result} </p>
+                      <br></br>
+                      
                 </div>
 
-                
+                <Button variant='contained' sx={{display: 'flex', marginLeft: '15px', marginTop: '10px', marginBottom: '10px', alignSelf: 'flex-start'}}> <PersonAddAlt1OutlinedIcon sx={{color: 'white'}} /> <Typography sx={{color: 'white', fontFamily: "Arial"}}>  Add Reviewer </Typography></Button>
                 {vodTimestamp && 
                  <div className={VodCSS['add-note']}> 
                    <button className={VodCSS['add-note-button']} onClick={() => {setAddingNote(true)}}> ADD NOTE </button>
@@ -242,7 +247,6 @@ export const Vod = () =>{
                 </div>
               </div>
             </div>
-            
         </div>
     )
 }
