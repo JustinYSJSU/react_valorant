@@ -191,7 +191,7 @@
     background-color: #2E2E2E;
     border-radius: 20px;
     margin-top: 20px;
-    width: 308px;
+    /* /*width: 300px;  */
     margin-left: 20px;
 }
 
@@ -208,6 +208,8 @@
 .note-comment{
     text-align: left;
     margin-left: 10px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 .tag-mechanics{
